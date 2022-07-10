@@ -4,7 +4,7 @@
 
 namespace SchoolManagement.Poc.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class Firstmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,8 +20,8 @@ namespace SchoolManagement.Poc.Migrations
                     State = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Latitude = table.Column<double>(type: "float", nullable: true),
-                    Longitude = table.Column<double>(type: "float", nullable: true)
+                    Latitude = table.Column<double>(type: "float", nullable: false),
+                    Longitude = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -53,7 +53,8 @@ namespace SchoolManagement.Poc.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Students_AddressId",
                 table: "Students",
-                column: "AddressId");
+                column: "AddressId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

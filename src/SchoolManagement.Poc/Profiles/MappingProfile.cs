@@ -2,14 +2,14 @@
 using SchoolManagement.Poc.Data;
 using SchoolManagement.Poc.Models;
 
-namespace SchoolManagement.Poc.Profiles
+namespace SchoolManagement.Poc.Profiles;
+
+public class MappingProfile : Profile
 {
-    public class MappingProfile:Profile
+    public MappingProfile()
     {
-        public MappingProfile()
-        {
-            CreateMap<Address, AddressDto>().ReverseMap();
-            CreateMap<AddressDto, Address>().ReverseMap();
-        }
+        CreateMap<Address, AddressDto>().ReverseMap();
+        CreateMap<Student, GetStudentDto>();
+        CreateMap<WriteStudentDto, Student>();
     }
 }
