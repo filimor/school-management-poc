@@ -7,6 +7,8 @@ namespace SchoolManagement.Poc.Controllers;
 
 [ApiController]
 [Route("[Controller]")]
+[Produces("application/json")]
+[ApiConventionType(typeof(DefaultApiConventions))]
 public class AddressesController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -18,6 +20,11 @@ public class AddressesController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Obtém todos os endereços cadastrados.
+    /// </summary>
+    /// <remarks>Retorna uma lista com todos os endereços cadastrados.</remarks>
+    /// <returns>Um array com os endereços.</returns>
     [HttpGet]
     public IActionResult GetAllAddresses()
     {
@@ -25,6 +32,11 @@ public class AddressesController : ControllerBase
         return Ok(addresses);
     }
 
+    /// <summary>
+    /// Obtém os dados de um endereço por id.
+    /// </summary>
+    /// <remarks>Retorna os dados de um endereço com base no id especificado.</remarks>
+    /// <param name="id">Id do endereço.</param>
     [HttpGet("{id}")]
     public IActionResult GetAddressById(int id)
     {
@@ -36,7 +48,24 @@ public class AddressesController : ControllerBase
         return Ok(addressDto);
     }
 
+    /// <summary> Cadastra um endereço.</summary>
+    /// <remarks>
+    /// Exemplo de requisição:
+    ///
+    ///     POST /addresses
+    ///     {
+    ///         "street": "R. Pamplona, 123",
+    ///         "district": "Jardim Paulista",
+    ///         "city": "São Paulo",
+    ///         "state": "SP",
+    ///         "country": "Brasil",
+    ///         "zipCode": "01234-567"
+    ///     }
+    /// </remarks>
+    /// <returns>O endereço cadastrado.</returns>
+    /// <remarks>Retorna o endereço cadastrado.</remarks>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public IActionResult CreateAddress([FromBody] AddressDto addressDto)
     {
         var address = _mapper.Map<Address>(addressDto);
@@ -46,6 +75,12 @@ public class AddressesController : ControllerBase
         return CreatedAtAction(nameof(GetAddressById), new { id = address.Id }, address);
     }
 
+    /// <summary>
+    /// Atualiza um endereço.
+    /// </summary>
+    /// <remarks>Atualiza o endereço correspondente ao ID recebido como parâmetro utilizando
+    /// os dados recebidos no corpo da requisição.</remarks>
+    /// <param name="id">Id do endereço a ser alterado.</param>
     [HttpPut("{id}")]
     public IActionResult UpdateAddress(int id, [FromBody] AddressDto addressDto)
     {
@@ -59,6 +94,11 @@ public class AddressesController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Exclui um endereço.
+    /// </summary>
+    /// <remarks>Exclui o endereço correspondente ao ID recebido.</remarks>
+    /// <param name="id">Id do endereço a ser excluído.</param>
     [HttpDelete("{id}")]
     public IActionResult DeleteAddress(int id)
     {
